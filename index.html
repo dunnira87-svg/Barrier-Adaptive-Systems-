@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barrier Adaptive Systems</title>
+<meta name="description" content="Barrier Adaptive Systems builds Adaptive Environmental Regulation Systems: boundary infrastructure that keeps the interior of a home stable and predictable under exterior transportation noise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f6f4;
+    --surface: #ffffff;
+    --ink: #111a1f;
+    --muted: #52606a;
+    --line: #dde2e0;
+    --accent: #0f766e;
+    --accent-ink: #ffffff;
+    --accent-soft: #e6f3f1;
+    --warn: #c2410c;
+    --deep: #0e1a20;
+    --deep-line: #24353d;
+    --deep-muted: #8fa3ab;
+    --radius: 14px;
+    --max: 1120px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b1317; --surface: #111c21; --ink: #e6eef0; --muted: #98a9b0;
+      --line: #22323a; --accent: #2dd4bf; --accent-ink: #062320; --accent-soft: #0f2a28;
+      --warn: #fb923c; --deep: #081013; --deep-line: #1f2f36; --deep-muted: #8fa3ab;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b1317; --surface: #111c21; --ink: #e6eef0; --muted: #98a9b0;
+    --line: #22323a; --accent: #2dd4bf; --accent-ink: #062320; --accent-soft: #0f2a28;
+    --warn: #fb923c; --deep: #081013; --deep-line: #1f2f36; --deep-muted: #8fa3ab;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.62 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; letter-spacing: -0.01em; white-space: nowrap; }
+  .brand svg { width: 28px; height: 28px; flex: none; }
+  .brand span { display: none; }
+  @media (min-width: 420px) { .brand span { display: inline; } }
+  .nav nav { display: none; gap: 28px; font-size: 15px; color: var(--muted); }
+  .nav nav a { text-decoration: none; }
+  .nav nav a:hover { color: var(--ink); }
+  @media (min-width: 880px) { .nav nav { display: flex; } }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px;
+    font: 600 15px/1.2 Inter, system-ui, sans-serif; text-decoration: none;
+    border: 1px solid transparent; cursor: pointer; transition: transform .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { border-color: var(--line); background: var(--surface); color: var(--ink); }
+  .btn-sm { padding: 8px 16px; font-size: 14px; }
+
+  .eyebrow { font: 500 12.5px/1 "JetBrains Mono", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .09em; color: var(--accent); }
+
+  /* Hero */
+  .hero { padding: 64px 0 56px; }
+  .hero .wrap { display: grid; gap: 44px; align-items: center; }
+  @media (min-width: 940px) { .hero .wrap { grid-template-columns: 1.05fr 1fr; } .hero { padding: 100px 0 88px; } }
+  h1 { font-size: clamp(2.25rem, 5.2vw, 3.8rem); line-height: 1.05; letter-spacing: -0.035em; margin: 18px 0 20px; font-weight: 700; }
+  .lede { font-size: 1.14rem; color: var(--muted); max-width: 34em; margin: 0 0 32px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .hero-visual { background: var(--deep); border: 1px solid var(--deep-line); border-radius: 20px; padding: 20px; }
+  .hero-visual svg { width: 100%; height: auto; display: block; }
+  .hv-label { font: 500 10.5px "JetBrains Mono", monospace; fill: var(--deep-muted); letter-spacing: .07em; }
+  .wave-out { stroke-dasharray: 6 0; animation: drift 6s linear infinite; }
+  @keyframes drift { to { transform: translateX(-80px); } }
+  .scan { animation: scan 3.2s ease-in-out infinite; }
+  @keyframes scan { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .wave-out, .scan { animation: none; } }
+
+  section { padding: 72px 0; }
+  @media (min-width: 940px) { section { padding: 96px 0; } }
+  .section-head { max-width: 700px; margin-bottom: 44px; }
+  h2 { font-size: clamp(1.7rem, 3.3vw, 2.45rem); line-height: 1.13; letter-spacing: -0.025em; margin: 14px 0 16px; }
+  .section-head p { color: var(--muted); font-size: 1.07rem; margin: 0; }
+  .band { background: var(--surface); border-block: 1px solid var(--line); }
+
+  /* Threshold comparison */
+  .thresholds { display: grid; gap: 16px; margin-bottom: 40px; }
+  @media (min-width: 760px) { .thresholds { grid-template-columns: 1fr 1fr; } }
+  .stat { border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; background: var(--bg); }
+  .stat .num { font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+  .stat .num small { font-size: .45em; font-weight: 600; color: var(--muted); margin-left: 4px; }
+  .stat h3 { margin: 12px 0 6px; font-size: 1.02rem; }
+  .stat p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .stat.who .num { color: var(--accent); }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: .96rem; }
+  caption { text-align: left; padding: 18px 20px 4px; font-weight: 600; }
+  th, td { padding: 12px 20px; text-align: left; border-bottom: 1px solid var(--line); }
+  thead th { font-size: .82rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.n { font-variant-numeric: tabular-nums; }
+  .bar { display: inline-block; height: 8px; border-radius: 4px; background: var(--warn); vertical-align: middle; margin-left: 10px; opacity: .85; }
+  .bar.old { background: var(--muted); opacity: .5; }
+  .note { font-size: .85rem; color: var(--muted); margin: 14px 2px 0; }
+
+  /* Limits */
+  .limits { display: grid; gap: 16px; }
+  @media (min-width: 640px) { .limits { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .limits { grid-template-columns: repeat(4, 1fr); } }
+  .limit { border-top: 2px solid var(--warn); padding-top: 16px; }
+  .limit h3 { margin: 0 0 6px; font-size: 1.02rem; }
+  .limit p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+  /* Approach */
+  .steps { display: grid; gap: 16px; }
+  @media (min-width: 640px) { .steps { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .step .k { font: 500 12.5px "JetBrains Mono", monospace; color: var(--accent); }
+  .step h3 { margin: 10px 0 8px; font-size: 1.18rem; letter-spacing: -0.01em; }
+  .step p { margin: 0; color: var(--muted); font-size: .96rem; }
+
+  /* Zone */
+  .zone { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 940px) { .zone { grid-template-columns: 1fr 1fr; } }
+  .zone ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+  .zone li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; }
+  .zone li svg { width: 22px; height: 22px; color: var(--accent); margin-top: 2px; }
+  .zone li strong { display: block; }
+  .zone li span { color: var(--muted); font-size: .96rem; }
+
+  /* Doctrine */
+  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  @media (min-width: 760px) { .pillars { grid-template-columns: repeat(4, 1fr); } }
+  .pillar { background: var(--surface); padding: 22px; }
+  .pillar .l { font: 700 1.6rem/1 Inter, sans-serif; color: var(--accent); }
+  .pillar h3 { margin: 10px 0 4px; font-size: 1rem; }
+  .pillar p { margin: 0; color: var(--muted); font-size: .9rem; }
+  .doctrine-foot { margin-top: 20px; font: 500 13px "JetBrains Mono", monospace; color: var(--muted); letter-spacing: .04em; }
+
+  /* Commitments */
+  .commit { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  @media (min-width: 760px) { .commit { grid-template-columns: 1fr 1fr; } }
+  .commit div { background: var(--bg); padding: 26px; }
+  .commit h3 { margin: 0 0 6px; font-size: 1.04rem; }
+  .commit p { margin: 0; color: var(--muted); }
+
+  /* Roadmap */
+  .roadmap { display: grid; gap: 12px; }
+  @media (min-width: 760px) { .roadmap { grid-template-columns: repeat(5, 1fr); } }
+  .rm { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: var(--surface); }
+  .rm.now { border-color: var(--accent); background: var(--accent-soft); }
+  .rm .t { font: 500 11.5px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .rm.now .t { color: var(--accent); }
+  .rm h3 { margin: 8px 0 0; font-size: 1rem; }
+
+  /* Contact */
+  .contact { display: grid; gap: 40px; }
+  @media (min-width: 940px) { .contact { grid-template-columns: 1fr 1fr; align-items: start; } }
+  form { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; display: grid; gap: 16px; }
+  label { font-size: 14px; font-weight: 600; display: grid; gap: 6px; }
+  input, select, textarea { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; width: 100%; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+  textarea { min-height: 110px; resize: vertical; }
+  .form-status { font-size: 14px; color: var(--accent); margin: 0; min-height: 1.2em; }
+
+  .sources { font-size: .84rem; color: var(--muted); }
+  .sources ol { padding-left: 20px; margin: 12px 0 0; display: grid; gap: 6px; }
+  .sources a { word-break: break-word; }
+  .disclaimer { font-size: .84rem; color: var(--muted); margin-top: 20px; max-width: 820px; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Barrier Adaptive Systems home">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M2 16c2-6 4 6 6 0s4 6 6 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".45"/>
+        <rect x="15" y="4" width="3" height="24" rx="1.5" fill="var(--accent)"/>
+        <path d="M21 16h9" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Barrier Adaptive Systems</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="#problem">The problem</a>
+      <a href="#approach">Approach</a>
+      <a href="#zone">Ebenezer Zone</a>
+      <a href="#doctrine">Doctrine</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#contact">Join the pilot list</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Adaptive Environmental Regulation Systems</div>
+        <h1>A stable interior, whatever is happening outside.</h1>
+        <p class="lede">Barrier Adaptive Systems engineers the boundary between a home and its environment. Our systems regulate exterior transportation noise at the envelope so occupants live in a predictable interior field, not one that spikes with every overflight.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">Join the pilot list</a>
+          <a class="btn btn-ghost" href="#problem">Why it matters</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" role="img" aria-label="Illustration: a volatile exterior sound wave meets an adaptive boundary and continues into the interior as a steady, near-flat line">
+        <svg viewBox="0 0 400 300">
+          <defs>
+            <clipPath id="outside"><rect x="0" y="0" width="196" height="300"/></clipPath>
+          </defs>
+          <g stroke="var(--deep-line)" stroke-width="1">
+            <line x1="0" y1="75" x2="400" y2="75"/><line x1="0" y1="150" x2="400" y2="150"/><line x1="0" y1="225" x2="400" y2="225"/>
+          </g>
+          <g clip-path="url(#outside)">
+            <path class="wave-out" fill="none" stroke="#fb923c" stroke-width="2.2" stroke-linejoin="round"
+              d="M0 150 L10 140 L20 158 L30 146 L40 120 L50 182 L60 96 L70 204 L80 132 L90 150 L100 144 L110 160 L120 120 L130 186 L140 70 L150 226 L160 110 L170 168 L180 146 L190 154 L200 140 L210 158 L220 146 L230 120 L240 182 L250 96 L260 204 L270 132 L280 150"/>
+          </g>
+          <rect x="192" y="28" width="12" height="244" rx="6" fill="#2dd4bf" opacity=".9"/>
+          <rect class="scan" x="186" y="28" width="24" height="244" rx="12" fill="#2dd4bf" opacity=".18"/>
+          <path fill="none" stroke="#2dd4bf" stroke-width="2.2" stroke-linecap="round"
+            d="M210 150 C 240 147, 260 153, 290 150 S 340 148, 390 150"/>
+          <text class="hv-label" x="12" y="22">EXTERIOR: VOLATILE</text>
+          <text class="hv-label" x="232" y="22">INTERIOR: STABLE</text>
+          <text class="hv-label" x="160" y="292">ADAPTIVE BOUNDARY</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="problem">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The problem</div>
+        <h2>The federal noise threshold and the public health standard are 20 decibels apart.</h2>
+        <p>Federal aircraft noise policy treats a 65 dB day-night average as normally compatible with residential use. The World Health Organization recommends reducing aircraft noise below 45 dB. The two metrics differ, but both are annual averages, and the gap describes a large population living with exposure that a public health body associates with harm and that federal programs do not mitigate.</p>
+      </div>
+
+      <div class="thresholds">
+        <div class="stat">
+          <div class="num">65<small>dB DNL</small></div>
+          <h3>Federal compatibility threshold</h3>
+          <p>FAA threshold for residential land use and the general eligibility line for federally funded sound insulation.</p>
+        </div>
+        <div class="stat who">
+          <div class="num">45<small>dB L<sub>den</sub></small></div>
+          <h3>WHO recommended level</h3>
+          <p>WHO 2018 guideline for aircraft noise, with a separate 40 dB night-time recommendation for sleep.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Share of residents highly annoyed by aircraft noise</caption>
+          <thead>
+            <tr><th>Exposure (DNL)</th><th>1992 FICON curve</th><th>FAA Neighborhood Environmental Survey, 2021</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>65 dB</td><td class="n">12.3% <span class="bar old" style="width:12px"></span></td><td class="n">60.1 to 70.9% <span class="bar" style="width:66px"></span></td></tr>
+            <tr><td>60 dB</td><td class="n">6.5% <span class="bar old" style="width:7px"></span></td><td class="n">43.8 to 53.7% <span class="bar" style="width:49px"></span></td></tr>
+            <tr><td>55 dB</td><td class="n">3.3% <span class="bar old" style="width:4px"></span></td><td class="n">27.8 to 36.8% <span class="bar" style="width:32px"></span></td></tr>
+            <tr><td>50 dB</td><td class="n">1.7% <span class="bar old" style="width:2px"></span></td><td class="n">15.4 to 23.4% <span class="bar" style="width:19px"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Survey ranges are 95% confidence ranges. At the federal threshold, the share of residents reporting high annoyance is roughly five times the share on which the threshold was calibrated. The FAA has stated it will not draw policy conclusions from these results until it considers stakeholder input.</p>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The incumbent remedy</div>
+        <h2>Passive insulation attenuates a fixed amount and records nothing.</h2>
+        <p>Federally funded sound insulation has treated thousands of homes near major airports. The public record identifies four structural limits of that model.</p>
+      </div>
+      <div class="limits">
+        <div class="limit"><h3>Bounded eligibility</h3><p>Eligibility generally ends at the 65 DNL contour, excluding homes at 50 to 60 DNL where high annoyance is widespread.</p></div>
+        <div class="limit"><h3>Closed windows</h3><p>Performance depends on windows staying shut, which trades ventilation for quiet.</p></div>
+        <div class="limit"><h3>Static response</h3><p>Fixed treatments cannot respond to changes in flight paths, operations, or time of night.</p></div>
+        <div class="limit"><h3>Degradation, unmeasured</h3><p>Installed treatments wear over decades, and none of them measures or reports the exposure it is meant to reduce.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="approach">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Our approach</div>
+        <h2>Regulate the boundary, not the person.</h2>
+        <p>Individual annoyance tracks discrete events more closely than it tracks annual averages. Our systems are designed around that finding: they target the stability of the interior field and the intrusion of individual events, not maximum suppression.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="k">01 / Measure</div><h3>Know the exposure</h3><p>Sensing at the exterior and the interior establishes what arrives at the boundary and what the occupant actually experiences.</p></div>
+        <div class="step"><div class="k">02 / Discriminate</div><h3>Separate noise from signal</h3><p>Transportation noise is regulated. Alarms, sirens, doorbells, and speech inside the home are never attenuated.</p></div>
+        <div class="step"><div class="k">03 / Respond</div><h3>Act before the event</h3><p>The system is designed to anticipate predictable exterior events and respond ahead of them, holding the interior near its own baseline.</p></div>
+        <div class="step"><div class="k">04 / Record</div><h3>Show the result</h3><p>Every zone keeps an exposure record, so performance is measured in the home rather than assumed from a specification.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="zone">
+    <div class="wrap zone">
+      <div>
+        <div class="eyebrow">Market-entry product</div>
+        <h2>The Ebenezer Zone</h2>
+        <p style="color:var(--muted);font-size:1.07rem;margin:0 0 24px">A residential retrofit system for homes subject to chronic acoustic volatility, beginning with homes beneath aircraft approach and departure corridors and homes adjacent to freeways. It is organized by room function, so a bedroom at night is held to a stricter standard than a kitchen at noon.</p>
+        <a class="btn btn-ghost" href="#contact">Register a home for the pilot</a>
+      </div>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+          <div><strong>Retrofit, not reconstruction</strong><span>Designed to fit existing window and wall openings.</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h10a3 3 0 1 0-3-3M4 12h14a3 3 0 1 1-3 3M4 16h7"/></svg>
+          <div><strong>Ventilation between events</strong><span>Designed so the home can breathe when the exterior is quiet, rather than sealing it permanently.</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 15v-3M12 15V9M16 15v-5"/></svg>
+          <div><strong>Exposure record</strong><span>Zone-by-zone acoustic metrics the household can see and keep.</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6l8-3z"/></svg>
+          <div><strong>Runs on site</strong><span>Control runs in the home and does not depend on a continuous internet connection.</span></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="doctrine">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The EBENEZER Doctrine</div>
+        <h2>Eight pillars every product must satisfy.</h2>
+        <p>The Doctrine governs engineering, capital allocation, and expansion. A concept that fails any pillar does not advance.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar"><div class="l">E</div><h3>Enclosure</h3><p>A defined, bounded, measurable domain.</p></div>
+        <div class="pillar"><div class="l">B</div><h3>Boundary</h3><p>Selective regulation, never suppression without discrimination.</p></div>
+        <div class="pillar"><div class="l">E</div><h3>Environmental</h3><p>Change the environment, not the occupant.</p></div>
+        <div class="pillar"><div class="l">N</div><h3>Neuroadaptive</h3><p>Sense, learn, predict, and adapt. Static systems do not qualify.</p></div>
+        <div class="pillar"><div class="l">E</div><h3>Equilibrium</h3><p>Stability is the objective, not maximum suppression.</p></div>
+        <div class="pillar"><div class="l">Z</div><h3>Zonal</h3><p>Deployment within a clearly defined zone.</p></div>
+        <div class="pillar"><div class="l">E</div><h3>Exposure</h3><p>Every stressor specific, measurable, and modelable.</p></div>
+        <div class="pillar"><div class="l">R</div><h3>Response</h3><p>Adaptive, anticipatory, controlled modulation.</p></div>
+      </div>
+      <div class="doctrine-foot">Doctrine precedes scale.</div>
+    </div>
+  </section>
+
+  <section id="commitments">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Commitments</div>
+        <h2>What we hold ourselves to.</h2>
+      </div>
+      <div class="commit">
+        <div><h3>Life-safety signals are protected</h3><p>Smoke and carbon monoxide alarms, emergency sirens, doorbells, and knocking are never attenuated.</p></div>
+        <div><h3>No audio leaves the device</h3><p>The exposure record stores derived acoustic metrics only. Audio is never stored.</p></div>
+        <div><h3>Performance claims are measured claims</h3><p>Products are specified and represented on measured acoustic and environmental performance.</p></div>
+        <div><h3>No medical claims</h3><p>No Barrier Adaptive Systems product is represented as diagnosing, treating, or preventing any condition.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="roadmap">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Platform roadmap</div>
+        <h2>One boundary logic, many enclosures.</h2>
+        <p>Each future domain re-enters the Doctrine from the first pillar before development begins.</p>
+      </div>
+      <div class="roadmap">
+        <div class="rm now"><div class="t">Now</div><h3>Residential interiors</h3></div>
+        <div class="rm"><div class="t">Future</div><h3>Vehicle cabins</h3></div>
+        <div class="rm"><div class="t">Future</div><h3>Aircraft cabins</h3></div>
+        <div class="rm"><div class="t">Future</div><h3>Industrial control stations</h3></div>
+        <div class="rm"><div class="t">Future</div><h3>Wearable boundary systems</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <div>
+        <div class="eyebrow">Get in touch</div>
+        <h2>Live under a flight path or beside a freeway?</h2>
+        <p style="color:var(--muted);font-size:1.07rem;margin:0">The Ebenezer Zone is in development. We are building a list of households, airport sound insulation programs, and research partners for the pilot. Tell us about your location and we will follow up.</p>
+      </div>
+      <form id="contact-form" novalidate>
+        <label>Name <input name="name" autocomplete="name" required></label>
+        <label>Email <input name="email" type="email" autocomplete="email" required></label>
+        <label>I am a
+          <select name="role">
+            <option>Homeowner or renter</option>
+            <option>Airport or sound insulation program</option>
+            <option>Researcher</option>
+            <option>Investor</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>Primary noise source
+          <select name="source">
+            <option>Aircraft</option>
+            <option>Freeway or road traffic</option>
+            <option>Both</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>City or nearest airport <input name="location" autocomplete="address-level2"></label>
+        <label>Anything else <textarea name="message"></textarea></label>
+        <button class="btn btn-primary" type="submit">Join the pilot list</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="band" id="sources" style="padding:48px 0">
+    <div class="wrap sources">
+      <div class="eyebrow">Sources</div>
+      <ol>
+        <li>Bureau of Transportation Statistics, National Transportation Statistics tbl. 4-57, <a href="https://www.bts.gov/content/number-people-residing-areas-significant-noise-exposure-around-us-airports">Number of People Residing in Areas of Significant Noise Exposure Around U.S. Airports</a>.</li>
+        <li>World Health Organization, Environmental Noise Guidelines for the European Region (2018).</li>
+        <li>Federal Aviation Administration, <a href="https://www.faa.gov/regulations_policies/policy_guidance/noise/survey">Neighborhood Environmental Survey</a>; Analysis of the Neighborhood Environmental Survey, DOT/FAA/TC-21/4 (2021).</li>
+        <li>Criteria for the Design of Sound Insulation in Homes Around Commercial Airports, Transp. Res. Rec. No. 1312 (1991).</li>
+        <li>National Academies of Sciences, Engineering, and Medicine, Evaluating Methods for Determining Interior Noise Levels Used in Airport Sound Insulation Programs (2016).</li>
+      </ol>
+      <p class="disclaimer">The Ebenezer Zone is in development and is not yet available for sale. Statements on this page describe design objectives, not measured results of a Barrier Adaptive Systems device. Public health findings are cited to describe the significance of transportation noise exposure, not as evidence that any product produces a health outcome.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="year">2026</span> Barrier Adaptive Systems. All rights reserved.</span>
+    <span>Adaptive Environmental Regulation Systems</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Set CONTACT_ENDPOINT to a form backend (Formspree, a serverless function,
+  // or a CRM webhook) before launch. Until then submissions are not sent anywhere.
+  const CONTACT_ENDPOINT = '';
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.elements.name.value.trim() || !form.elements.email.value || !form.elements.email.checkValidity()) {
+      status.textContent = 'Please provide your name and a valid email.';
+      return;
+    }
+    if (!CONTACT_ENDPOINT) {
+      status.textContent = 'Thank you. You are on the list, and we will be in touch.';
+      form.reset();
+      return;
+    }
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      status.textContent = res.ok ? 'Thank you. You are on the list, and we will be in touch.' : 'Submission failed. Please try again.';
+      if (res.ok) form.reset();
+    } catch {
+      status.textContent = 'Submission failed. Please try again.';
+    }
+  });
+</script>
+</body>
+</html>
