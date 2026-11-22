@@ -148,14 +148,6 @@
   .zone li strong { display: block; }
   .zone li span { color: var(--muted); font-size: .96rem; }
 
-  /* Doctrine */
-  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-  @media (min-width: 760px) { .pillars { grid-template-columns: repeat(4, 1fr); } }
-  .pillar { background: var(--surface); padding: 22px; }
-  .pillar .l { font: 700 1.6rem/1 Inter, sans-serif; color: var(--accent); }
-  .pillar h3 { margin: 10px 0 4px; font-size: 1rem; }
-  .pillar p { margin: 0; color: var(--muted); font-size: .9rem; }
-  .doctrine-foot { margin-top: 20px; font: 500 13px "JetBrains Mono", monospace; color: var(--muted); letter-spacing: .04em; }
 
   /* Commitments */
   .commit { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
@@ -208,7 +200,6 @@
       <a href="#problem">The problem</a>
       <a href="#approach">Approach</a>
       <a href="#zone">Ebenezer Zone</a>
-      <a href="#doctrine">Doctrine</a>
     </nav>
     <a class="btn btn-primary btn-sm" href="#contact">Join the pilot list</a>
   </div>
@@ -352,28 +343,7 @@
     </div>
   </section>
 
-  <section class="band" id="doctrine">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">The EBENEZER Doctrine</div>
-        <h2>Eight pillars every product must satisfy.</h2>
-        <p>The Doctrine governs engineering, capital allocation, and expansion. A concept that fails any pillar does not advance.</p>
-      </div>
-      <div class="pillars">
-        <div class="pillar"><div class="l">E</div><h3>Enclosure</h3><p>A defined, bounded, measurable domain.</p></div>
-        <div class="pillar"><div class="l">B</div><h3>Boundary</h3><p>Selective regulation, never suppression without discrimination.</p></div>
-        <div class="pillar"><div class="l">E</div><h3>Environmental</h3><p>Change the environment, not the occupant.</p></div>
-        <div class="pillar"><div class="l">N</div><h3>Neuroadaptive</h3><p>Sense, learn, predict, and adapt. Static systems do not qualify.</p></div>
-        <div class="pillar"><div class="l">E</div><h3>Equilibrium</h3><p>Stability is the objective, not maximum suppression.</p></div>
-        <div class="pillar"><div class="l">Z</div><h3>Zonal</h3><p>Deployment within a clearly defined zone.</p></div>
-        <div class="pillar"><div class="l">E</div><h3>Exposure</h3><p>Every stressor specific, measurable, and modelable.</p></div>
-        <div class="pillar"><div class="l">R</div><h3>Response</h3><p>Adaptive, anticipatory, controlled modulation.</p></div>
-      </div>
-      <div class="doctrine-foot">Doctrine precedes scale.</div>
-    </div>
-  </section>
-
-  <section id="commitments">
+  <section class="band" id="commitments">
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow">Commitments</div>
@@ -388,12 +358,12 @@
     </div>
   </section>
 
-  <section class="band" id="roadmap">
+  <section id="roadmap">
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow">Platform roadmap</div>
         <h2>One boundary logic, many enclosures.</h2>
-        <p>Each future domain re-enters the Doctrine from the first pillar before development begins.</p>
+        <p>Each new domain must clear the company's internal engineering doctrine, the EBENEZER Doctrine, before development begins.</p>
       </div>
       <div class="roadmap">
         <div class="rm now"><div class="t">Now</div><h3>Residential interiors</h3></div>
@@ -405,7 +375,7 @@
     </div>
   </section>
 
-  <section id="contact">
+  <section class="band" id="contact">
     <div class="wrap contact">
       <div>
         <div class="eyebrow">Get in touch</div>
@@ -440,7 +410,7 @@
     </div>
   </section>
 
-  <section class="band" id="sources" style="padding:48px 0">
+  <section id="sources" style="padding:48px 0">
     <div class="wrap sources">
       <div class="eyebrow">Sources</div>
       <ol>
